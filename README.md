@@ -1,4 +1,4 @@
-# Shiny_Lab_Dashboard
+# Single_Cell_Shiny_Lab_Dashboard
 
 <b>Requirements</b>
 
