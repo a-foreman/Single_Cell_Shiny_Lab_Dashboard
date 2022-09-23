@@ -1,9 +1,9 @@
-## Single Cell Browser with Metadata
+# Single Cell Browser with Metadata
 
-# About 
+## About 
 The R Shiny Single Cell App is a Single Cell Browser is an interactive app that allows you to upload and explore previously submitted single cell datasets and their metadata. The app shows a umap, violin plots and gene-expression dot plots as well as a metadata table and a submission form. 
 
-# Set up
+### Set up
 The app is compatible with single cell data analysed in seurat. To work, you will need to run a Umap during your analysis. Save your
 seurat object as an .rds file using the code below
 
@@ -23,7 +23,7 @@ RStudio 2022.07.1, R ,
 
 Shiny Packages: Seurat 2.3.0, Shiny, shinythemes, uwot, ggplot2, ddplyr
 
-## Read .csv files
+### Read .csv files
 There are three parts of the R script that need updating to your preferences. 
 
 The first is the genenames.csv file. You will need to create this file which will contain all of the genes annotated in your species of interests genome in a single column (see the drosophila example in the repository). Genenames need to match the format used in Seurat. Save your genenames file in the "Database_files" directory and update the below with your genenames .csv name.
@@ -32,7 +32,7 @@ The first is the genenames.csv file. You will need to create this file which wil
 genenames <- read.csv("Database_files/fullgenelist_Drosophila.csv")
 ```
 
-## Functions
+### Functions
 The functions below relate to submitting new entries into the single cell database. "Responses" is a directory in the SingleCell.RDS folder. epoch and human time are used as filenames for metadata saved in the form so they can be easily deleted/updated if required based on the submission date. Each form submission is an individual .csv file.When metadata is saved in the browser, it includes the .rds filename. The .rds files can be read into the app using the loop below. This takes the RDS.name column from responses, removes duplicates and N.A's and saves as the datanames object. The object is then used in the following loop to read in all .rds files in the single cell app folder. 
 
 ```{Responses}
@@ -62,7 +62,7 @@ Label Mandatory sets the '*' icon to show which fields are mandatory fields = if
 
 
 ```{functions}
-#Functions to set .csv filenames
+### Functions to set .csv filenames
 responsesDir <- file.path("Responses")
 epochTime <- function() {
   as.integer(Sys.time())
@@ -81,11 +81,11 @@ humanTime <- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
 The below sets the Mandatory fields to be used in the metadata form.
 
 ```{set fields}
-#set mandatory fields
+### set mandatory fields
 fieldsMandatory <- c("Name","Experiment.Name", "Type", "Genotype", "Stage", "Time","Tissue", "Protocol", "Replicates", "Pre.process.analysis", "Analysis", "RDS.name", "Folder.Name", "Raw.Data.ID")
 fieldsAll <- c("Name","Experiment.Name", "Type", "Genotype", "Stage", "Time","Tissue", "Protocol", "Replicates", "Pre.process.analysis", "Analysis", "RDS.name", "Folder.Name", "Raw.Data.ID", "Publications.Document","Additional.Comments")
 
-## ui section
+### ui section
 
 The user interface script is broken down into navigation panels. The first section sets the theme (graphical display used by the app = look at shinythemes options if you wish to change the theme).  It also tells the app to use json and CSS which allows you to set mandatory fields and hidden messages in the metadata submission form section. 
 
@@ -217,10 +217,10 @@ This section shows gene expression per cluster as a dot plot.UPDATE: the selecte
                                     downloadButton("downloaddot", "Download.png"))))))))
 ```
 
-## Server
+### Server
 The server section is the 'backend' of the ui. thematic::thematic_shiny()' corresponds with the ui theme selection to set the theme. renderDataTable shows data tables.ll output functions relate to an input e.g output$SingleCell - "SingleCell" is called in the ui.
 
-```{Serv}
+```{Serve}
 server <- function(input, output, session) {
     thematic::thematic_shiny()
 ```
@@ -325,7 +325,7 @@ The below code saves the form entry data when the submit button is pressed. It
 shows the user a thank you message indicating that the metadata has been succesfully saved.
 
 ```{Save data}
-  # action to take when submit button is pressed
+ # action to take when submit button is pressed
   observeEvent(input$submit, {
     shinyjs::disable("submit")
     shinyjs::show("submit_msg")
