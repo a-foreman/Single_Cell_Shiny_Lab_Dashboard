@@ -1,15 +1,5 @@
----
-title: "MetadataSingleCellBrowser"
-output: html_document
-date: "2022-09-22"
----
----
-output:
-  pdf_document:
-    pandoc_args: --listings
-    includes:
-      in_header: preamble.tex
----
+##Single Cell Browser with Metadata
+
 #About 
 The R Shiny Single Cell App is a Single Cell Browser is an interactive app that allows you to upload and explore previously submitted single cell datasets and their metadata. The app shows a umap, violin plots and gene-expression dot plots as well as a metadata table and a submission form. 
 
