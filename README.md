@@ -1,9 +1,9 @@
-{##Single Cell Browser with Metadata}
+## Single Cell Browser with Metadata
 
-{#About} 
+# About 
 The R Shiny Single Cell App is a Single Cell Browser is an interactive app that allows you to upload and explore previously submitted single cell datasets and their metadata. The app shows a umap, violin plots and gene-expression dot plots as well as a metadata table and a submission form. 
 
-{#Set up}
+# Set up
 The app is compatible with single cell data analysed in seurat. To work, you will need to run a Umap during your analysis. Save your
 seurat object as an .rds file using the code below
 
@@ -17,27 +17,13 @@ The Database directory will contain the .csv file of genenames for your species 
 There are two parts of the app that need to be adjusted to your preferences. 
 These are the genenames.csv file and the select input in the ui. Instrucutions on how to do this are below.
 
-{Required packages}
-```{packages}
-library(shiny)
-library(shinythemes)
-library(Seurat)
-library(uwot)
-library(ggplot2)
-library(dplyr)
-```
+##Requirements
 
+RStudio 2022.07.1, R ,
 
+Shiny Packages: Seurat 2.3.0, Shiny, shinythemes, uwot, ggplot2, ddplyr
 
-The below sets the Mandatory fields in the metadata form.
-
-```{set fields}
-#set mandatory fields
-fieldsMandatory <- c("Name","Experiment.Name", "Type", "Genotype", "Stage", "Time","Tissue", "Protocol", "Replicates", "Pre.process.analysis", "Analysis", "RDS.name", "Folder.Name", "Raw.Data.ID")
-fieldsAll <- c("Name","Experiment.Name", "Type", "Genotype", "Stage", "Time","Tissue", "Protocol", "Replicates", "Pre.process.analysis", "Analysis", "RDS.name", "Folder.Name", "Raw.Data.ID", "Publications.Document","Additional.Comments")
-```
-
-#Read .csv files
+## Read .csv files
 There are three parts of the R script that need updating to your preferences. 
 
 The first is the genenames.csv file. You will need to create this file which will contain all of the genes annotated in your species of interests genome in a single column (see the drosophila example in the repository). Genenames need to match the format used in Seurat. Save your genenames file in the "Database_files" directory and update the below with your genenames .csv name.
@@ -46,10 +32,10 @@ The first is the genenames.csv file. You will need to create this file which wil
 genenames <- read.csv("Database_files/fullgenelist_Drosophila.csv")
 ```
 
-#Functions
-When metadata is saved in the browser, it includes the .rds filename. The .rds files can be read into the app using the loop below. This takes the RDS.name column from responses, removes duplicates and N.A's and saves as the datanames object. The object is then used in the following loop to read in all .rds files in the single cell app folder. 
+## Functions
+The functions below relate to submitting new entries into the single cell database. "Responses" is a directory in the SingleCell.RDS folder. epoch and human time are used as filenames for metadata saved in the form so they can be easily deleted/updated if required based on the submission date. Each form submission is an individual .csv file.When metadata is saved in the browser, it includes the .rds filename. The .rds files can be read into the app using the loop below. This takes the RDS.name column from responses, removes duplicates and N.A's and saves as the datanames object. The object is then used in the following loop to read in all .rds files in the single cell app folder. 
 
-```{functions}
+```{Responses}
 files <- list.files(file.path("Responses"), full.names = TRUE)
 data <- lapply(files, read.csv, stringsAsFactors = FALSE)
 data <- do.call(rbind, data)
@@ -61,7 +47,7 @@ datanames <- unique(unlist(strsplit(datanames, " ")))
 named_file_list = as.list(datanames)
 names(named_file_list) <- as.list(datanames)
 
-#Loop to read in files
+# Loop to read in files
 
 file_contents <- list()
 
@@ -72,9 +58,6 @@ for(i in 1:length(datanames)){
 }
 file_contents <- setNames(file_contents, datanames)
 ```
-## Functions 
-The functions below relate to submitting new entries into the single cell database. "Responses" is a directory in the SingleCell.RDS folder. epoch and human time are used as filenames for metadata saved in the form so they can be easily deleted/updated if required based on the submission date. Each form submission is an individual .csv file.
-
 Label Mandatory sets the '*' icon to show which fields are mandatory fields = if all mandatory fields are not filled in, then the form response will not submit. The row headers for 'Mandatory fields' as well as all the form fields are set as objects; these correspond to the form headers set in 'Submit New Datasets' - if you decided to change the metadata collected, you need to update Mandatory, all fields and the textInput headers. 
 
 
@@ -95,7 +78,14 @@ appCSS <- ".mandatory_star { color: red; }"
 humanTime <- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
 ```
 
-#ui section
+The below sets the Mandatory fields to be used in the metadata form.
+
+```{set fields}
+#set mandatory fields
+fieldsMandatory <- c("Name","Experiment.Name", "Type", "Genotype", "Stage", "Time","Tissue", "Protocol", "Replicates", "Pre.process.analysis", "Analysis", "RDS.name", "Folder.Name", "Raw.Data.ID")
+fieldsAll <- c("Name","Experiment.Name", "Type", "Genotype", "Stage", "Time","Tissue", "Protocol", "Replicates", "Pre.process.analysis", "Analysis", "RDS.name", "Folder.Name", "Raw.Data.ID", "Publications.Document","Additional.Comments")
+
+## ui section
 
 The user interface script is broken down into navigation panels. The first section sets the theme (graphical display used by the app = look at shinythemes options if you wish to change the theme).  It also tells the app to use json and CSS which allows you to set mandatory fields and hidden messages in the metadata submission form section. 
 
@@ -105,8 +95,7 @@ ui <-fluidPage(
   shinyjs::inlineCSS(appCSS), navbarPage("Brand Lab Dashboard", theme = shinytheme("cosmo"), 
 ```
 
-#Single Cell Protocol
-This sets the first section of the app where you can provide any analysis, protocol or method notes that would helpful to users. Most of this information is coded using the html tags feature in R (for example, to add a hyperlink = tags$a(href="").All text needs to be written between "". Use p() either side of text to foramt paragraphs.
+The below sets the first section of the app where you can provide any analysis, protocol or method notes that would helpful to users. Most of this information is coded using the html tags feature in R (for example, to add a hyperlink = tags$a(href="").All text needs to be written between "". Use p() either side of text to foramt paragraphs.
 
 ```{protocol info}
  tabPanel(title = div(icon("chart-line", lib = "font-awesome"), "Single Cell"),
@@ -120,8 +109,6 @@ This sets the first section of the app where you can provide any analysis, proto
 ),
 
 ````
-
-#Single Cell
 This section allows users to submit new datasets using the form. Each response is saved in the "Responses" directory as a .csv file. The .csv responses are "bound" and rendered to a table to show all the datasets. Mandatory fields are stated at the beginig of the script (fieldsMandatory). The action button placed at the end of UI is pressed to submit responses in the form and save these as a .csv - see server section.
 
 
@@ -230,7 +217,7 @@ This section shows gene expression per cluster as a dot plot.UPDATE: the selecte
                                     downloadButton("downloaddot", "Download.png"))))))))
 ```
 
-##Server
+## Server
 The server section is the 'backend' of the ui. thematic::thematic_shiny()' corresponds with the ui theme selection to set the theme. renderDataTable shows data tables.ll output functions relate to an input e.g output$SingleCell - "SingleCell" is called in the ui.
 
 ```{Serv}
