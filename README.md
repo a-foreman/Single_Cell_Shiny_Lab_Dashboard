@@ -1,9 +1,9 @@
-##Single Cell Browser with Metadata
+{##Single Cell Browser with Metadata}
 
-#About 
+{#About} 
 The R Shiny Single Cell App is a Single Cell Browser is an interactive app that allows you to upload and explore previously submitted single cell datasets and their metadata. The app shows a umap, violin plots and gene-expression dot plots as well as a metadata table and a submission form. 
 
-#Set up
+{#Set up}
 The app is compatible with single cell data analysed in seurat. To work, you will need to run a Umap during your analysis. Save your
 seurat object as an .rds file using the code below
 
@@ -17,7 +17,7 @@ The Database directory will contain the .csv file of genenames for your species 
 There are two parts of the app that need to be adjusted to your preferences. 
 These are the genenames.csv file and the select input in the ui. Instrucutions on how to do this are below.
 
-#Required packages
+{Required packages}
 ```{packages}
 library(shiny)
 library(shinythemes)
