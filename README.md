@@ -17,7 +17,7 @@ The Database directory will contain the .csv file of genenames for your species 
 There are two parts of the app that need to be adjusted to your preferences. 
 These are the genenames.csv file and the select input in the ui. Instrucutions on how to do this are below.
 
-##Requirements
+### Requirements
 
 RStudio 2022.07.1, R ,
 
