@@ -400,4 +400,13 @@ Or from unix
 ```{unix launch}
  R -e "shiny::runApp('Shiny_Single_Cell_External.R',port=7776, host='your.host.name')""
 ```
+### Updating App
 
+```{kill port}
+kill $(lsof -t -i:"Port Number")
+```
+e.g.
+```{kill port}
+kill $(lsof -t -i:"7776")
+```
+Re-run app as above.
