@@ -15,7 +15,7 @@ seurat object as an .rds file using the code below:
 ```{save rds}
 saveRDS(object = x, file = "yourobjectname.rds")
 ```
-### Quick Set up
+### Quick Start
 
 Download the Single Cell App folder. in Unix =
 
