@@ -395,9 +395,10 @@ You are ready to launch the app!
 ```{Launch}
 shinyApp(ui, server)
 ```
-Or from unix 
+Or from unix - Open screen to ensure running process isn't terminated when you close the terminal.
 
 ```{unix launch}
+screen
  R -e "shiny::runApp('Shiny_Single_Cell_External.R',port=7776, host='your.host.name')""
 ```
 ### Updating App
