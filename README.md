@@ -11,8 +11,9 @@ seurat object as an .rds file using the code below
 saveRDS(object = x, file = "yourobjectname.rds")
 ```
 
-Create a folder for your app (e.g. "single cell app folder") and save the shiny script here. Then create two subdirectories - "Responses" and "Database". The "Responses" directory will contain all of the submitted metadata responses as .csv files. 
-The Database directory will contain the .csv file of genenames for your species of interest (as extracted from your species gtf file). You will need to save your .rds seurat files in the main folder ("single cell app folder"). 
+Download the Single Cell App folder and open R, setting your working directory to the folder. Open the Shiny_Single_Cell_External.R script in R studio and run the app. This should show the example pbmc.rds dataset.
+
+The App folder contains a "Responses" and "Annotation_Files" directory. The "Responses" directory contains all of the submitted metadata responses as .csv files. The Annotated files directory contains a list of human genenames as a .csv (from the HGNC- if usng another species, you will need to create a genenames file for your species of interest). You will need to save your .rds seurat files in the main folder ("single cell app folder"). 
 
 There are two parts of the app that need to be adjusted to your preferences. 
 These are the genenames.csv file and the select input in the ui. Instrucutions on how to do this are below.
