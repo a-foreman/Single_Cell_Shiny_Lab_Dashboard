@@ -384,4 +384,10 @@ You are ready to launch the app!
 ```{Launch}
 shinyApp(ui, server)
 ```
+Or from unix 
 
+```{unix launch}
+ R -e "shiny::runApp('app_for_VM2.R',port=7776, host='your.host.name')""
+```
+
+```
