@@ -12,7 +12,7 @@ fieldsAll <- c("Name","Experiment.Name", "Type", "Genotype", "Stage", "Time","Ti
 
 
 #load genenames.csv (update to your file!)
-genenames <- read.csv("Database_files/fullgenelist_Drosophila.csv")
+genenames <- read.csv("Annotation_Files/Homo_sapiens.GRCh38.107.csv", header = F)
 
 #Read in datanames
 files <- list.files(file.path("Responses"), full.names = TRUE)
@@ -70,7 +70,7 @@ ui <-fluidPage(
                                                     "Datasets",
                                                     tabPanel("Single Cell Lab Datasets",
                                                              mainPanel(
-                                                               dataTableOutput(outputId = "SingleCell_results"))
+                                                               DT::dataTableOutput("responsesTable1"))
                                                     ),
                                                     tabPanel("Add new dataset",
                                                              mainPanel(
@@ -101,7 +101,7 @@ ui <-fluidPage(
                                                                  )
                                                                ),  
                                                                DT::dataTableOutput("responsesTable")
-                                                             ))
+                                                             )),
                                                     "sc Explorer",
                                                     tabPanel("Umap Browser", 
                                                              titlePanel("Umap Browser"),
@@ -109,7 +109,7 @@ ui <-fluidPage(
                                                                column(8,
                                                                       selectInput("dataset", label = h3("Dataset"),
                                                                                   choices = named_file_list,
-                                                                                  selected = "st17_3replicates.rds"),
+                                                                                  selected = "pbmc.rds"),
                                                                       helpText("Gene names must be exact."),
                                                                       selectizeInput("genesearch1", label = "Gene Name", choices = NULL, multiple = TRUE, options = NULL)
                                                                )),
@@ -130,7 +130,7 @@ ui <-fluidPage(
                                                                column(8,
                                                                       selectInput("dataset", label = h3("Dataset"),
                                                                                   choices = named_file_list,
-                                                                                  selected = "st17_3replicates.rds"),
+                                                                                  selected = "pbmc"),
                                                                       helpText("Gene names must be exact."),
                                                                       selectizeInput("genesearch2", label = "Gene Name", choices = NULL, multiple = FALSE, options = NULL)
                                                                )),
@@ -145,7 +145,7 @@ ui <-fluidPage(
                                                                column(8,
                                                                       selectInput("dataset", label = h3("Dataset"),
                                                                                   choices = named_file_list,
-                                                                                  selected = "st17_3replicates.rds"),
+                                                                                  selected = "pbmc.rds"),
                                                                       helpText("Enter Gene names must be exact."),
                                                                       selectizeInput("genesearch3", label = "Gene Name", choices = NULL, multiple = TRUE, options = NULL)
                                                                )),
@@ -169,8 +169,9 @@ server <- function(input, output, session) {
   datasetInput <- reactive({
     df <- (input$dataset)
   })
-  VlnPlot(datasetInput(), features = (input$genesearch2))
-})
+  output$vlnPlot <- renderPlot({
+    VlnPlot(datasetInput(), features = (input$genesearch2))
+  })
 output$DotPlot <- renderPlot({
   DotPlot(datasetInput(), features = (input$genesearch3))
 }) 
@@ -191,8 +192,6 @@ output$DotPlot <- renderPlot({
   updateSelectizeInput(session, 'genesearch1', choices = genenames$V1, server = TRUE)
   updateSelectizeInput(session, 'genesearch2', choices = genenames$V1, server = TRUE)
   updateSelectizeInput(session, 'genesearch3', choices = genenames$V1, server = TRUE)
-  output$vlnPlot <- renderPlot({
-
     #Set mandatory fields.
   observe({
     mandatoryFilled <-
@@ -220,7 +219,7 @@ output$DotPlot <- renderPlot({
                         humanTime(),
                         digest::digest(data))
     #Write form data into a .csv file.
-    write.csv(x = data, file = file.path(responsesDir, fileName),
+    write.csv(x = data, file = file.path("Responses", fileName),
               row.names = FALSE, quote = TRUE)
   }
   # action to take when submit button is pressed
@@ -246,7 +245,7 @@ output$DotPlot <- renderPlot({
   })
   #Load form data
   loadData <- function() {
-    files <- list.files(file.path(responsesDir), full.names = TRUE)
+    files <- list.files(file.path("Responses"), full.names = TRUE)
     data <- lapply(files, read.csv, stringsAsFactors = FALSE)
     data <- do.call(rbind, data)
     data
@@ -264,4 +263,5 @@ output$DotPlot <- renderPlot({
     options = list(searching = FALSE, lengthChange = FALSE)
   ) 
 }
+
 shinyApp(ui, server)
