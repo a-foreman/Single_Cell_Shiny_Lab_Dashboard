@@ -17,10 +17,10 @@ saveRDS(object = x, file = "yourobjectname.rds")
 ```
 ### Quick Start
 
-Download the Single Cell App folder. in Unix =
+Download the Single Cell Browser folder. in Unix =
 
 ```{quick run}
-cd Singe\/Cell\/app
+cd Single\/Cell\/Browser
  R -e "shiny::runApp('Shiny_Single_Cell_External.R',port=7776, host='your.host.name')""
 ```
 (*setting port and host name are optional).
@@ -30,7 +30,7 @@ Alternatively, open R studio and set your working directory to the downloaded fo
 This should show an example browser using the pbmc.rds dataset.You will be able to add new datasets by entering metadata using the form submission tab. Make sure to save your .rds files in the main parent directory (Single Cell App/). The datasets should autoload into the browser when the app is refreshed. 
 
 ### Adapting the app
-The App folder contains a "Responses" and "Annotation_Files" directory. The "Responses" directory contains all of the submitted metadata responses as .csv files. The Annotated files directory contains a list of human genenames as a .csv (from the HGNC- if usng another species, you will need to create a genenames file for your species of interest). You will need to save your .rds seurat files in the main folder ("single cell app folder"). 
+The App folder contains a "Responses" and "Annotation_Files" directory. The "Responses" directory contains all of the submitted metadata responses as .csv files. The Annotated files directory contains a list of human genenames as a .csv (from the HGNC- if usng another species, you will need to create a genenames file for your species of interest). You will need to save your .rds seurat files in the main folder ("Single Cell Browser/"). 
 
 You will also need to update the 'selected input' function in the ui section of the script - this tells the app which dataset to autoselect when the page is open. It is called 3 x in the ui, once for each plot.  Instrucutions on how the app works and how to update it are below:
 
