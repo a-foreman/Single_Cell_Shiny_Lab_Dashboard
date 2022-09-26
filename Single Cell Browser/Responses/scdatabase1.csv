@@ -1,0 +1,2 @@
+Name,Experiment.Name,Type,Genotype,Stage,Time,Tissue,Protocol,Replicates,Pre.process.analysis,Analysis,RDS.name,Folder.Name,Raw.Data.ID,Publications.Document,Additional.Comments,timestamp
+pbmc,Seurat,10X scRNAseq,Human,N/A,N/A,Peripheral Blood Mononuclear Cells,N/A,1,Cellranger,Seurat V2,pbmc.rds,filtered_gene_bc_matrices,N/A,,,
