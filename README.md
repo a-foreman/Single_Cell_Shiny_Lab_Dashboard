@@ -16,8 +16,9 @@ seurat object as an .rds file using the code below:
 saveRDS(object = x, file = "yourobjectname.rds")
 ```
 ### Quick Start
+Create the pbmc.rds object using the guided tutorial in Seurat (https://satijalab.org/seurat/articles/pbmc3k_tutorial.html). Download the Single Cell Browser folder. Save your .rds file in the Single Cell Browser folder. 
 
-Download the Single Cell Browser folder. in Unix =
+In Unix =
 
 ```{quick run}
 cd Single\/Cell\/Browser
